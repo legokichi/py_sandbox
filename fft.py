@@ -1,3 +1,4 @@
+# coding: utf-8
 # http://kaiseki-web.lhd.nifs.ac.jp/wiki/index.php/Python_によるオーディオ処理
 import matplotlib.pyplot as plt
 import numpy as np
