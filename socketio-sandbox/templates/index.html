@@ -1,0 +1,17 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/msgpack-lite/0.1.20/msgpack.min.js"></script>
+<!--
+  http://socket.io/docs/client-api/
+  https://github.com/kawanet/msgpack-lite
+-->
+<script>
+  var socket = window.socket = io("localhost:5000/camera");
+  socket.on("echo", console.log.bind(console, "echo"));
+  socket.on("echobin", function(data){
+    console.log("echobin", data);
+    console.log("unpacked", msgpack.decode(new Uint8Array(data))); 
+  });
+  socket.emit("echo", "hi");
+  var uint8arr = msgpack.encode({"は？": "は？", 0: 0, "1": "1", 10:{10:{1:0}}});
+  socket.emit("echobin", uint8arr);
+</script>
