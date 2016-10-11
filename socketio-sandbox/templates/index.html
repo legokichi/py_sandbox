@@ -4,6 +4,30 @@
   http://socket.io/docs/client-api/
   https://github.com/kawanet/msgpack-lite
 -->
+<canvas id="CNV_REG" style="width:100%;"></canvas>
+<script>
+  var FPS = (function () {
+    function FPS(period) {
+        this.period = period;
+        this.lastTime = performance.now();
+        this.fps = 0;
+        this.counter = 0;
+    }
+    FPS.prototype.step = function () {
+        var currentTime = performance.now();
+        this.counter += 1;
+        if (currentTime - this.lastTime > this.period) {
+            this.fps = 1000 * this.counter / (currentTime - this.lastTime);
+            this.counter = 0;
+            this.lastTime = currentTime;
+        }
+    };
+    FPS.prototype.valueOf = function () {
+        return Math.round(this.fps * 1000) / 1000;
+    };
+    return FPS;
+}());
+</script>
 <script>
   var socket = window.socket = io("localhost:5000/camera");
   socket.on("echo", console.log.bind(console, "echo"));
@@ -14,4 +38,24 @@
   socket.emit("echo", "hi");
   var uint8arr = msgpack.encode({"は？": "は？", 0: 0, "1": "1", 10:{10:{1:0}}});
   socket.emit("echobin", uint8arr);
+  var fps = new FPS(1000);
+  var img = new Image();
+  var cnv = CNV_REG;
+  var ctx = cnv.getContext("2d");
+  var i = 0;
+  socket.on("broadcast", function(data){
+    fps.step();
+    var url = URL.createObjectURL(new Blob([data], {type:"image/jpeg"}));
+    img.src = url;
+    img.onload = function(){
+      if(i++%100 === 0){
+        // canvas resize from 100 frame per period.
+        console.log(""+fps);
+        console.log(cnv.width = img.width);
+        console.log(cnv.height = img.height);
+      }
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+    };
+  });
 </script>
