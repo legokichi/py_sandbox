@@ -1,3 +1,4 @@
+
 # http://qiita.com/Kazuhito/items/cccdeb55d101dcc69203
 # UI キット Tinker を削除
 import numpy as np
