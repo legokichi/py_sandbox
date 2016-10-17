@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 # パターン
-chessboard = "../Webcam/2016-10-11-154140.jpg"
+chessboard = "./Webcam/2016-10-11-154140.jpg"
 patternSize = (10, 7)
 
 # 読み込み
