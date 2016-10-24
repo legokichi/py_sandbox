@@ -52,7 +52,7 @@ def detect(frame):
       predictor = dlib.shape_predictor(predictor_path)
       image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # RGB変換 (opencv形式からskimage形式に変換)
       # detsが矩形, scoreはスコア、idxはサブ検出器の結果(0.0がメインで数が大きい程弱い)
-      dets, scores, idx = detector.run(image, 0)
+      dets, scores, idx = detector.run(image, 1) # 1 は upsample_num_times
       if len(dets) > 0: # 顔画像ありと判断された場合
           print("face detected.")
           for i, rect in enumerate(dets):
@@ -69,14 +69,14 @@ def detect(frame):
       # cv2.waitKey(0) # 1ms 待って imshow を描画
 
 if __name__ == "__main__":
-    frame = cv2.imread("./panorama/2001Z_01.panorama.jpg")
+    frame = cv2.imread("./2001Z_01.panorama.jpg")
     #frame1 = gamma_filter(frame, 1)
     #frame2 = gamma_filter(frame, 2)
     #frame3 = gamma_filter(frame, 3)
     #merge_mertens = cv2.createMergeMertens()
     #frame4 = merge_mertens.process([frame,frame1,frame2,frame3])
     
-    resize_show(1/2, "a", detect(gamma_filter(frame)))
+    resize_show(1/2, "a", detect(frame))
     #resize_show(1/2, "b", detect(frame1))
     #resize_show(1/2, "c", detect(frame2))
     #resize_show(1/2, "d", detect(frame3))
