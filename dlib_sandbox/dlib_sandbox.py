@@ -18,7 +18,8 @@ import cv2
 
 image_file = 'capture.png' # type: string
 img = io.imread(image_file) # type: np.ndarray
- 
+# http://kivantium.hateblo.jp/entry/2015/07/25/184346
+# selective search
 rects = [] # type: List<(bool, {left:Callable[[],int], top:Callable[[],int], right:Callable[[],int], bottom:Callable[[],int]})>
 dlib.find_candidate_object_locations(img, rects, min_size=1000)
 
