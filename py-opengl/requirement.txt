@@ -22,6 +22,6 @@ python-socketio==1.6.0
 scikit-image==0.12.3
 scipy==0.18.1
 six==1.10.0
-tensorflow==0.11.0rc0
+tensorflow==1.15.4
 toolz==0.8.0
 Werkzeug==0.11.11
